@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-/* --- CORE VARIABLES --- */
 :root {
   --bg-color: #ffffff;
   --text-main: #050505;
@@ -9,15 +8,12 @@
   --glass-bg: rgba(255, 255, 255, 0.5);
   --stroke-color: rgba(0, 0, 0, 0.2);
 
-  /* --- DARK SECTION VARIABLES --- */
   --bg-dark: #0a0a0a;
   --text-dark: #ffffff;
   --text-muted-dark: #a1a1aa;
   --border-dark: rgba(255, 255, 255, 0.1);
   --glass-bg-dark: rgba(255, 255, 255, 0.05);
 
-  /* --- CURSOR (par section) --- */
-  /* Par défaut (sections claires) : curseur foncé */
   --cursor-dot-color: var(--text-main);
   --cursor-border-color: rgba(0, 0, 0, 0.15);
 
@@ -26,25 +22,20 @@
   --pill-bg: var(--glass-bg);
 }
 
-/* Thème "light cursor" = curseur clair (utile sur fonds sombres) */
 html[data-cursor-theme="light"] {
   --cursor-dot-color: var(--text-dark);
   --cursor-border-color: rgba(255, 255, 255, 0.35);
 }
 
-/* --- NAVBAR: couleur indépendante du thème du curseur --- */
-/* Par défaut (sections claires) : texte sombre */
 .nav-brand,
 .nav-dev {
   color: var(--text-main);
 }
 
-/* Liens du menu: même logique que le "brand" */
 .nav-link {
   color: var(--text-main);
 }
 
-/* Sections sombres (navbarTheme=light) : texte clair */
 html[data-navbar-theme="light"] .nav-brand,
 html[data-navbar-theme="light"] .nav-dev,
 html[data-navbar-theme="light"] .nav-link {
@@ -59,12 +50,18 @@ html[data-navbar-theme="light"] .nav-link {
   --font-display: var(--font-space-grotesk);
 }
 
-/* --- BASE SETTINGS --- */
 body {
   background-color: var(--bg-color);
   color: var(--text-main);
   overflow-x: hidden;
-  cursor: none; /* Le curseur personnalisé prend le relais */
+}
+
+/**
+ * On masque le curseur natif uniquement si le curseur custom est actif.
+ * Objectif: si le JS ne se charge pas (ou erreur), l’utilisateur garde un curseur standard.
+ */
+html[data-cursor-enabled="true"] body {
+  cursor: none;
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -92,14 +89,11 @@ body {
   border-radius: 4px;
   text-transform: uppercase;
   background: var(--glass-bg);
-  -webkit-backdrop-filter: blur(
-    4px
-  ); /* Support Safari/iOS Safari (préfixe WebKit) */
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   transition: all 0.5s ease;
 }
 
-/* Amélioration du label sur écrans plus grands */
 @media (min-width: 768px) {
   .section-label {
     top: 1.5rem;
@@ -109,7 +103,6 @@ body {
   }
 }
 
-/* --- FX: NOISE --- */
 .noise-overlay {
   position: fixed;
   top: 0;
@@ -122,7 +115,6 @@ body {
   background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-/* --- FX: PRELOADER --- */
 .loader-bar {
   width: 200px;
   height: 1px;
@@ -132,7 +124,6 @@ body {
   overflow: hidden;
 }
 
-/* --- FX: CURSOR --- */
 .cursor-dot {
   position: fixed;
   top: 0;
@@ -159,7 +150,6 @@ body {
   transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.5s;
 }
 
-/* --- COMPONENT STYLES --- */
 .img-zoom {
   transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
@@ -167,7 +157,6 @@ body {
   transform: scale(1.05);
 }
 
-/* Particle Canvas */
 .particle-canvas {
   position: absolute;
   top: 0;
@@ -178,7 +167,6 @@ body {
   opacity: 0.3;
 }
 
-/* Selection */
 ::selection {
   background-color: var(--text-main);
   color: var(--bg-color);

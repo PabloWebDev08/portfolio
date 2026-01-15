@@ -13,7 +13,7 @@ export const Navbar = () => {
       setScrolled(window.scrollY > 20);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -29,7 +29,6 @@ export const Navbar = () => {
       document.querySelectorAll<HTMLElement>("[data-cursor]")
     );
 
-    // Si aucune section ne déclare de thème, on ne fait rien.
     if (themedSections.length === 0) return;
 
     const applyTheme = (theme: NavbarTheme) => {
@@ -68,13 +67,11 @@ export const Navbar = () => {
         | NavbarTheme
         | undefined;
 
-      // Sécurité: on accepte uniquement "dark" ou "light".
       if (themeFromSection === "dark" || themeFromSection === "light") {
         applyTheme(themeFromSection);
       }
     };
 
-    // Throttle via rAF pour éviter trop d'exécutions sur scroll desktop (roulette).
     let rafId: number | null = null;
     const schedulePick = () => {
       if (rafId !== null) return;
@@ -84,7 +81,6 @@ export const Navbar = () => {
       });
     };
 
-    // Init + écouteurs
     pickThemeFromNavbarAnchor();
     window.addEventListener("scroll", schedulePick, { passive: true });
     window.addEventListener("resize", schedulePick);
@@ -126,7 +122,6 @@ export const Navbar = () => {
             href="#contact"
             onClick={(e) => {
               e.preventDefault();
-              // Scroll jusqu'en bas de la page pour révéler la section CTA fixe
               window.scrollTo({
                 top: document.documentElement.scrollHeight,
                 behavior: "smooth",

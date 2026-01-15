@@ -10,25 +10,14 @@ import TagPlayers from "@/components/ui/TagPlayers";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-/**
- * Interface pour les props du composant CardProject
- */
 interface CardProjectProps {
   project: Project;
 }
 
-/**
- * Composant CardProject - Affiche un projet avec un style moderne et épuré.
- * Basé sur le design de référence (carte de profil élégante avec coins très arrondis).
- *
- * @param {Project} project - Les données du projet à afficher
- */
 const CardProject = ({ project }: CardProjectProps) => {
   const { id, name, image, description, links, status, players } = project;
-  // Statut normalisé : si absent, on considère le projet "en cours"
   const projectStatus: ProjectStatus = status ?? "inProgress";
 
-  // Animation d'entrée pour la carte
   const cardVariants = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0, transition: { duration: 0.5 } },
@@ -60,14 +49,12 @@ const CardProject = ({ project }: CardProjectProps) => {
           </div>
         )}
 
-        {/* Tag "Players" : visible uniquement si le projet fournit `players` (donc typiquement les jeux) */}
         {typeof players === "number" &&
         Number.isFinite(players) &&
         players > 0 ? (
           <TagPlayers players={players} className="absolute top-4 right-4" />
         ) : null}
 
-        {/* Badge "Status" style "Available for work" */}
         <div className="absolute bottom-4 left-4 bg-black/40 backdrop-blur-md border border-white/10 rounded-full px-4 py-2 flex items-center gap-2 shadow-sm">
           <div
             className={`w-2.5 h-2.5 rounded-full ${
@@ -87,18 +74,14 @@ const CardProject = ({ project }: CardProjectProps) => {
           <span className="font-bold text-white/80">{name}</span>
         </h3>
 
-        {/* Description style sous-titre */}
         <p className="text-neutral-400 text-[15px] leading-snug mb-8 line-clamp-2 font-light">
           {description}
         </p>
 
-        {/* Icônes de liens circulaires */}
         <LinksDemoGit links={links} />
 
-        {/* Séparateur horizontal discret */}
         <div className="h-px bg-white/10 w-full mb-8" />
 
-        {/* Bouton d'action principal style "Glossy Dark" */}
         <BtnDetailsProject slug={id} />
       </div>
     </motion.div>

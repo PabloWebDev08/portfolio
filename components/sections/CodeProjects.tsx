@@ -6,10 +6,6 @@ import { CODE_PROJECTS } from "@/content/projects";
 import CardProject from "@/components/CardProject";
 import { SECTION_CODES } from "@/lib/constants";
 
-/**
- * Section CodeProjects - Affiche la liste des projets web développés en code.
- * Utilise une grille responsive de CardProject.
- */
 export const CodeProjects = () => {
   return (
     <section
@@ -17,7 +13,6 @@ export const CodeProjects = () => {
       data-cursor="light"
       className="relative w-full py-24 px-4 md:px-12 lg:px-24 border-t border-(--border-dark) bg-(--bg-dark) text-(--text-dark)"
     >
-      {/* Label de section flottant spécifique pour fond sombre */}
       <div className="section-label bg-white/10! text-white/80! border-white/20!">
         [ {SECTION_CODES.number}. CODE ]
       </div>
@@ -43,7 +38,6 @@ export const CodeProjects = () => {
           </div>
         </div>
 
-        {/* Grille de projets - Mobile: 1 col, Tablet: 2 cols, Desktop: 3 cols */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}

@@ -31,20 +31,18 @@ const CardNoCode = ({ project, index }: CardNoCodeProps) => {
       href={links.demo || "#"}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative flex flex-col w-full py-10 border-t border-white/10 hover:bg-white/2 transition-colors duration-500"
+      className="hoverable group relative flex flex-col w-full py-10 border-t border-white/10 hover:bg-white/2 transition-colors duration-500"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
     >
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-4 md:gap-16">
-          {/* Numéro du projet - Style discret et mono */}
           <span className="font-mono text-[10px] md:text-xs text-neutral-600 mt-3 md:mt-5">
             {formattedNumber}
           </span>
 
           <div className="flex flex-col gap-4 md:gap-6">
-            {/* Titre du projet - Grande typographie légère */}
             <h3 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight text-white/90 group-hover:text-white transition-colors duration-300">
               {name}
             </h3>
@@ -67,13 +65,11 @@ const CardNoCode = ({ project, index }: CardNoCodeProps) => {
           </div>
         </div>
 
-        {/* Icône de flèche minimaliste */}
         <div className="mt-2 md:mt-4 text-neutral-600 group-hover:text-white transition-all duration-500 transform group-hover:translate-x-1 group-hover:-translate-y-1">
           <ArrowUpRight size={48} strokeWidth={1} className="md:w-16 md:h-16" />
         </div>
       </div>
 
-      {/* Overlay de survol discret */}
       <div className="absolute inset-0 bg-linear-to-r from-white/1 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
     </motion.a>
   );

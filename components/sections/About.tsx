@@ -5,12 +5,7 @@ import { motion } from "framer-motion";
 import { SECTION_ABOUT } from "@/lib/constants";
 import { HeroParticles } from "@/components/ui/HeroParticles";
 
-/**
- * Section À propos modernisée.
- * Focus sur la typographie, les animations de révélation et la hiérarchie visuelle.
- */
 export const About = () => {
-  // Fonction pour mettre en valeur certains mots clés
   const renderDescription = (text: string) => {
     const keywords = [
       "Next.js",
@@ -93,7 +88,6 @@ export const About = () => {
               </div>
             </motion.div>
 
-            {/* Colonne droite : Description avec mise en valeur */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -104,7 +98,6 @@ export const About = () => {
                 {renderDescription(SECTION_ABOUT.description)}
               </div>
 
-              {/* Petite note finale style signature */}
               <div className="mt-12 pt-8 border-t border-(--border-color)">
                 <p className="font-display text-xl italic text-foreground opacity-60">
                   Construire mieux, pour durer.

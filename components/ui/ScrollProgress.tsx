@@ -12,11 +12,6 @@ export const ScrollProgress = () => {
 
   return (
     <motion.div
-      /**
-       * On réutilise `.nav-dev` pour hériter de la même logique de thème que le texte ".DEV"
-       * (via `html[data-navbar-theme]` dans `globals.css`).
-       * `bg-current` force la barre à utiliser `currentColor` comme couleur de fond.
-       */
       className="nav-dev fixed top-0 left-0 right-0 h-[2px] bg-current z-100 origin-left"
       style={{ scaleX }}
     />

@@ -1,18 +1,6 @@
 import type { Project } from "@/lib/types";
 
-/**
- * Catalogue unique des projets.
- *
- * Pourquoi:
- * - Centraliser les données facilite le routing (pages statiques par slug) et évite la duplication.
- * - On expose ensuite des listes dérivées (CODE/GAMES/DELIVERED) pour garder les sections simples.
- *
- * Note:
- * - Le `slug` utilisé pour le routing est `project.id`.
- */
-
 export const ALL_PROJECTS: Project[] = [
-  // --- CODE ---
   {
     id: "project-for-junior",
     category: "code",
@@ -45,7 +33,6 @@ export const ALL_PROJECTS: Project[] = [
       demo: "https://projectforjunior.com",
       code: "https://github.com/PabloWebDev08/projectforjunior",
     },
-    // Valeurs possibles : "inProgress" | "delivered"
     status: "delivered",
   },
   {
@@ -80,8 +67,6 @@ export const ALL_PROJECTS: Project[] = [
     },
     status: "inProgress",
   },
-
-  // --- DELIVERED (No-Code / Business) ---
   {
     id: "kaizen-venture",
     category: "delivered",
@@ -101,7 +86,7 @@ export const ALL_PROJECTS: Project[] = [
     name: "Chatify",
     stack: ["BUBBLE.IO", "STRIPE"],
     description: "",
-    techPoints: [""],
+    techPoints: [],
     links: {
       demo: "https://app.trychatify.com",
     },
@@ -114,7 +99,7 @@ export const ALL_PROJECTS: Project[] = [
     name: "Cutly",
     stack: ["BUBBLE.IO", "STRIPE"],
     description: "",
-    techPoints: [""],
+    techPoints: [],
     links: {
       demo: "https://app.joincutly.com",
     },
@@ -122,20 +107,18 @@ export const ALL_PROJECTS: Project[] = [
     year: "2024",
   },
   {
-    id: "Gatsbi",
+    id: "gatsbi",
     category: "delivered",
     name: "Gatsbi",
     stack: ["BUBBLE.IO", "STRIPE"],
     description: "",
-    techPoints: [""],
+    techPoints: [],
     links: {
       demo: "https://gatsbi.app",
     },
     status: "delivered",
     year: "2023",
   },
-
-  // --- GAMES ---
   {
     id: "shoot-to-learn",
     category: "games",
@@ -219,25 +202,18 @@ export const ALL_PROJECTS: Project[] = [
 const isCategory = (project: Project, category: Project["category"]): boolean =>
   project.category === category;
 
-/** Liste dérivée: projets "code" */
 export const CODE_PROJECTS: Project[] = ALL_PROJECTS.filter((p) =>
   isCategory(p, "code")
 );
 
-/** Liste dérivée: projets "games" */
 export const GAMES_PROJECTS: Project[] = ALL_PROJECTS.filter((p) =>
   isCategory(p, "games")
 );
 
-/** Liste dérivée: projets "delivered" */
 export const DELIVERED_PROJECTS: Project[] = ALL_PROJECTS.filter((p) =>
   isCategory(p, "delivered")
 );
 
-/**
- * Récupère un projet via son slug.
- * Ici, le slug correspond à `project.id`.
- */
 export function getProjectBySlug(slug: string): Project | undefined {
   return ALL_PROJECTS.find((project) => project.id === slug);
 }

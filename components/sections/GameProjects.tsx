@@ -6,9 +6,6 @@ import { SECTION_GAMES } from "@/lib/constants";
 import { GAMES_PROJECTS } from "@/content/projects";
 import CardProject from "@/components/CardProject";
 
-/**
- * Section GameProjects - Affiche les projets liés aux jeux vidéo (HYTOPIA).
- */
 export const GameProjects = () => {
   return (
     <section
@@ -22,7 +19,6 @@ export const GameProjects = () => {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        {/* En-tête de section : Titre et Description */}
         <div className="mb-12 md:mb-20">
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-4">
@@ -49,7 +45,6 @@ export const GameProjects = () => {
           transition={{ duration: 1, ease: [0.23, 1, 0.32, 1], delay: 0.2 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12"
         >
-          {/* Les futurs projets de jeux viendront ici */}
           {GAMES_PROJECTS.map((project, index) => (
             <motion.div
               key={project.id}

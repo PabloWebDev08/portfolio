@@ -2,19 +2,10 @@ import React from "react";
 import { Globe, Github } from "lucide-react";
 import { ProjectLinks } from "@/lib/types";
 
-/**
- * Interface pour les props du composant LinksDemoGit
- */
 interface LinksDemoGitProps {
   links: ProjectLinks;
 }
 
-/**
- * Composant LinksDemoGit - Affiche les icônes de liens circulaires pour la démo et le code source.
- * Style moderne avec effet glossy et reflet supérieur.
- *
- * @param {ProjectLinks} links - Les liens du projet (demo et code)
- */
 const LinksDemoGit = ({ links }: LinksDemoGitProps) => {
   return (
     <div className="flex gap-4 mb-8">
@@ -24,7 +15,7 @@ const LinksDemoGit = ({ links }: LinksDemoGitProps) => {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Voir la démo"
-          className="w-11 h-11 rounded-full relative overflow-hidden bg-linear-to-b from-[#2A2A2A] to-[#121212] border border-white/10 flex items-center justify-center text-neutral-400 hover:from-[#333333] hover:to-[#171717] hover:border-white/20 transition-all duration-300 shadow-sm"
+          className="hoverable w-11 h-11 rounded-full relative overflow-hidden bg-linear-to-b from-[#2A2A2A] to-[#121212] border border-white/10 flex items-center justify-center text-neutral-400 hover:from-[#333333] hover:to-[#171717] hover:border-white/20 transition-all duration-300 shadow-sm"
         >
           {/* Reflet supérieur pour un rendu glossy, comme le bouton */}
           <div
@@ -40,9 +31,8 @@ const LinksDemoGit = ({ links }: LinksDemoGitProps) => {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Voir le code source"
-          className="w-11 h-11 rounded-full relative overflow-hidden bg-linear-to-b from-[#2A2A2A] to-[#121212] border border-white/10 flex items-center justify-center text-neutral-400 hover:from-[#333333] hover:to-[#171717] hover:border-white/20 transition-all duration-300 shadow-sm"
+          className="hoverable w-11 h-11 rounded-full relative overflow-hidden bg-linear-to-b from-[#2A2A2A] to-[#121212] border border-white/10 flex items-center justify-center text-neutral-400 hover:from-[#333333] hover:to-[#171717] hover:border-white/20 transition-all duration-300 shadow-sm"
         >
-          {/* Reflet supérieur pour un rendu glossy, comme le bouton */}
           <div
             aria-hidden="true"
             className="absolute inset-0 bg-linear-to-b from-white/10 to-transparent opacity-50"

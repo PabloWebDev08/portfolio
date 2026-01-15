@@ -27,29 +27,39 @@ export const CustomCursor = () => {
      */
     const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
 
-    const update = () => setIsCursorEnabled(mq.matches);
+    const update = () => {
+      const enabled = mq.matches;
+      setIsCursorEnabled(enabled);
+
+      /**
+       * Important:
+       * On masque le curseur natif uniquement quand le curseur custom est actif.
+       * Comme ça, si le JS ne se charge pas, le site reste utilisable avec le curseur standard.
+       */
+      if (enabled) {
+        document.documentElement.dataset.cursorEnabled = "true";
+      } else {
+        delete document.documentElement.dataset.cursorEnabled;
+      }
+    };
+
     update();
 
     mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
+    return () => {
+      mq.removeEventListener("change", update);
+      delete document.documentElement.dataset.cursorEnabled;
+    };
     // Intentionnel: cet effet doit s’exécuter une seule fois au montage (setup matchMedia).
   }, []);
 
   useEffect(() => {
-    /**
-     * Desktop-first: sur grand écran, plusieurs sections peuvent être visibles en même temps.
-     * Pour éviter un "jitter" (le thème qui hésite), on choisit la section
-     * qui contient le centre du viewport (50% de la hauteur).
-     *
-     * Les sections doivent déclarer: `data-cursor="dark"` ou `data-cursor="light"`.
-     */
     if (!isCursorEnabled) return;
 
     const cursorSections = Array.from(
       document.querySelectorAll<HTMLElement>("[data-cursor]")
     );
 
-    // Si aucune section ne déclare un thème, on ne fait rien.
     if (cursorSections.length === 0) return;
 
     const applyTheme = (theme: CursorTheme) => {
@@ -66,14 +76,12 @@ export const CustomCursor = () => {
       for (const section of cursorSections) {
         const rect = section.getBoundingClientRect();
 
-        // Cas idéal: le centre de l'écran est à l'intérieur de la section
         if (rect.top <= centerY && rect.bottom >= centerY) {
           bestSection = section;
           bestDistance = 0;
           break;
         }
 
-        // Sinon, on choisit la section la plus proche du centre (distance verticale)
         const distance =
           centerY < rect.top ? rect.top - centerY : centerY - rect.bottom;
 
@@ -87,13 +95,11 @@ export const CustomCursor = () => {
         | CursorTheme
         | undefined;
 
-      // Sécurité: on accepte uniquement "dark" ou "light".
       if (themeFromSection === "dark" || themeFromSection === "light") {
         applyTheme(themeFromSection);
       }
     };
 
-    // Throttle via rAF pour éviter trop d'exécutions sur scroll desktop (roulette).
     let rafId: number | null = null;
     const schedulePick = () => {
       if (rafId !== null) return;
@@ -103,7 +109,6 @@ export const CustomCursor = () => {
       });
     };
 
-    // Init + écouteurs
     pickThemeFromViewportCenter();
     window.addEventListener("scroll", schedulePick, { passive: true });
     window.addEventListener("resize", schedulePick);
@@ -122,7 +127,6 @@ export const CustomCursor = () => {
   }, [isCursorEnabled, pathname]);
 
   useEffect(() => {
-    // Sécurité: si le curseur custom est désactivé (mobile), on ne pose aucun listener.
     if (!isCursorEnabled) return;
 
     const moveCursor = (e: MouseEvent) => {
@@ -149,8 +153,6 @@ export const CustomCursor = () => {
     };
   }, [dotX, dotY, circleX, circleY, isCursorEnabled]);
 
-  // Couleurs adaptées au thème courant (fond clair vs fond sombre).
-  // Note: Framer Motion anime très bien des couleurs RGBA, donc on évite "transparent".
   const circleBaseBorderColor =
     cursorTheme === "light"
       ? "rgba(255, 255, 255, 0.35)"

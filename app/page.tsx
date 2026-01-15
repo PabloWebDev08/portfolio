@@ -7,12 +7,14 @@ import { About } from "@/components/sections/About";
 import { CTA } from "@/components/sections/CTA";
 import { NoiseOverlay } from "@/components/ui/NoiseOverlay";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
+import { LandingScrollRestorer } from "@/components/ui/LandingScrollRestorer";
 
 export default function Home() {
   return (
     <>
       <NoiseOverlay />
       <ScrollProgress />
+      <LandingScrollRestorer />
 
       <Navbar />
 

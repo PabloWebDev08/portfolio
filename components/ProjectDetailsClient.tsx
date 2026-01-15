@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { BackButton } from "@/components/ui/BackButton";
+import { BackLink } from "@/components/ui/BackLink";
 import { motion } from "framer-motion";
 import {
   ExternalLink,
@@ -20,14 +20,9 @@ interface ProjectDetailsClientProps {
   project: Project;
 }
 
-/**
- * Composant Client pour l'affichage détaillé d'un projet.
- * Gère les animations et l'interactivité.
- */
 export default function ProjectDetailsClient({
   project,
 }: ProjectDetailsClientProps) {
-  // Animation variants
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
@@ -63,7 +58,6 @@ export default function ProjectDetailsClient({
                 className="object-cover"
                 sizes="100vw"
               />
-              {/* Overlay Gradient pour la lisibilité */}
               <div className="absolute inset-0 bg-linear-to-t from-background via-background/40 to-transparent" />
             </>
           ) : (
@@ -72,12 +66,11 @@ export default function ProjectDetailsClient({
             </div>
           )}
 
-          {/* Bouton Retour */}
           <div className="absolute top-8 left-4 md:left-8 z-20">
-            <BackButton className="hoverable cursor-pointer flex items-center gap-2 px-4 py-2 bg-background/20 backdrop-blur-md rounded-full text-sm font-medium border border-white/10 hover:bg-background/40 transition-all">
+            <BackLink className="hoverable cursor-pointer flex items-center gap-2 px-4 py-2 bg-background/20 backdrop-blur-md rounded-full text-sm font-medium border border-white/10 hover:bg-background/40 transition-all">
               <ChevronLeft className="w-4 h-4" />
               <span>Retour</span>
-            </BackButton>
+            </BackLink>
           </div>
 
           {/* Infos Hero */}
@@ -101,14 +94,13 @@ export default function ProjectDetailsClient({
           </div>
         </section>
       ) : (
-        /* HEADER STANDARD (pour les autres catégories) */
         <section className="pt-32 pb-12 px-6">
           <div className="max-w-5xl mx-auto">
             <div className="mb-8">
-              <BackButton className="hoverable cursor-pointer flex items-center gap-2 px-4 py-2 bg-muted/50 hover:bg-muted rounded-full text-sm font-medium border border-border transition-all w-fit">
+              <BackLink className="hoverable cursor-pointer flex items-center gap-2 px-4 py-2 bg-muted/50 hover:bg-muted rounded-full text-sm font-medium border border-border transition-all w-fit">
                 <ChevronLeft className="w-4 h-4" />
                 <span>Retour</span>
-              </BackButton>
+              </BackLink>
             </div>
 
             <motion.div
@@ -139,9 +131,7 @@ export default function ProjectDetailsClient({
           viewport={{ once: true }}
           className="grid grid-cols-1 md:grid-cols-3 gap-8"
         >
-          {/* BENTO GRID - GAUCHE (STACK & INFOS) */}
           <div className="md:col-span-1 space-y-6">
-            {/* Card Stack */}
             <motion.div
               variants={fadeInUp}
               className="p-6 rounded-3xl border border-border bg-card/50 backdrop-blur-sm"
@@ -164,7 +154,6 @@ export default function ProjectDetailsClient({
               </div>
             </motion.div>
 
-            {/* Card Détails (Année / Joueurs) */}
             {(project.year || project.players) && (
               <motion.div
                 variants={fadeInUp}
@@ -258,7 +247,6 @@ export default function ProjectDetailsClient({
         </motion.div>
       </section>
 
-      {/* 3. BARRE D'ACTIONS COLLANTE (MOBILE FIRST) */}
       <div className="fixed bottom-6 left-0 w-full px-6 z-50 pointer-events-none">
         <motion.div
           initial={{ y: 100 }}
@@ -271,7 +259,7 @@ export default function ProjectDetailsClient({
               href={project.links.demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 h-14 bg-foreground text-background rounded-2xl font-bold shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="hoverable flex-1 flex items-center justify-center gap-2 h-14 bg-foreground text-background rounded-2xl font-bold shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
               <ExternalLink className="w-5 h-5" />
               <span>Voir la Démo</span>
@@ -282,7 +270,7 @@ export default function ProjectDetailsClient({
               href={project.links.code}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 h-14 bg-background/80 backdrop-blur-xl text-foreground border border-border rounded-2xl font-bold shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="hoverable flex-1 flex items-center justify-center gap-2 h-14 bg-background/80 backdrop-blur-xl text-foreground border border-border rounded-2xl font-bold shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
               <Github className="w-5 h-5" />
               <span>Code Source</span>

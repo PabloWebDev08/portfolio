@@ -37,7 +37,7 @@ export const SECTION_ABOUT = {
     "Anciennement no-code (Bubble.io), aujourd'hui orienté Next.js / React / MongoDB. " +
     "J'ai commencé par livrer vite, puis j'ai choisi de construire mieux. " +
     "Je développe désormais des applications web en code, avec une méthodologie claire et une attention particulière à la qualité et à la maintenabilité. " +
-    "Je partage mes projets en open-source et je cherche des missions en développement web (code-first), tout en restant pragmatique quand le contexte l'exige",
+    "Je partage mes projets en open-source et je cherche des missions en développement web (code-first), tout en restant pragmatique quand le contexte l'exige.",
 };
 
 export const SECTION_CONTACT = {
@@ -50,7 +50,7 @@ export const SECTION_CONTACT = {
 export const SOCIAL_LINKS = {
   email: "mailto:pablowebdev7@gmail.com",
   github: "https://github.com/PabloWebDev08",
-  linkedin: "Https://www.linkedin.com/in/pablo-f-2a33b9264/",
+  linkedin: "https://www.linkedin.com/in/pablo-f-2a33b9264/",
 };
 
 export const TECH_STACK = [
@@ -61,10 +61,6 @@ export const TECH_STACK = [
   "TypeScript",
 ];
 
-/**
- * Libellés centralisés pour l'affichage du statut d'un projet.
- * Objectif : éviter les chaînes "magiques" dans les composants.
- */
 export const LABELS: Record<ProjectStatus, string> = {
   inProgress: "En cours de développement",
   delivered: "Projet livré",

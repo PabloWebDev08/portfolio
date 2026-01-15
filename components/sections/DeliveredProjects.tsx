@@ -7,12 +7,7 @@ import CardNoCode from "@/components/CardNoCode";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 
-/**
- * Section DeliveredProjects - Affiche les projets livrés (No-Code / Business).
- * Cette section utilise un style de liste minimaliste pour mettre en avant la clarté et le résultat.
- */
 export const DeliveredProjects = () => {
-  // Liste des images de témoignages situées dans /public/testimonial
   const testimonials = useMemo(
     () => [
       "/testimonial/anthony_testimonial1.webp",
@@ -38,15 +33,12 @@ export const DeliveredProjects = () => {
     if (!el) return;
 
     const update = () => {
-      // On duplique la liste (x2), donc scrollWidth = largeur totale des 2 séries.
-      // Diviser par 2 donne la largeur d'une série => base du "loop" infini.
       const nextWidth = el.scrollWidth / 2;
       setLoopWidth(nextWidth);
     };
 
     update();
 
-    // On réagit aux changements de taille (responsive + chargement des images).
     const ro = new ResizeObserver(() => update());
     ro.observe(el);
 
@@ -67,7 +59,6 @@ export const DeliveredProjects = () => {
       data-cursor="light"
       className="relative w-full py-24 px-4 md:px-12 lg:px-24 border-t border-(--border-dark) bg-(--bg-dark) text-white overflow-hidden"
     >
-      {/* Label de section flottant adapté au fond sombre */}
       <div className="section-label bg-white/10! text-white/80! border-white/20!">
         [ {SECTION_NOCODE.number}. DELIVERED ]
       </div>
@@ -93,14 +84,12 @@ export const DeliveredProjects = () => {
           </div>
         </div>
 
-        {/* Liste de projets No-Code - Style liste épurée */}
         <div className="flex flex-col border-b border-white/10">
           {DELIVERED_PROJECTS.map((project, index) => (
             <CardNoCode key={project.id} project={project} index={index} />
           ))}
         </div>
 
-        {/* Carrousel de Témoignages (Auto-défilement infini) */}
         <div className="mt-24">
           <h3 className="text-xl md:text-2xl font-display font-medium mb-2 text-center text-white/80 uppercase tracking-widest">
             — Témoignages Clients
@@ -121,8 +110,6 @@ export const DeliveredProjects = () => {
             <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 md:w-64 z-10 bg-linear-to-l from-(--bg-dark) via-(--bg-dark)/80 to-transparent pointer-events-none" />
 
             {shouldReduceMotion ? (
-              // Accessibilité : si l'utilisateur préfère réduire les animations,
-              // on propose un scroll horizontal manuel (toujours lisible, sans mouvement).
               <div className="flex gap-4 sm:gap-6 md:gap-8 pr-4">
                 {testimonials.map((src, index) => (
                   <div
@@ -140,12 +127,6 @@ export const DeliveredProjects = () => {
                 ))}
               </div>
             ) : (
-              /*
-                Carrousel "marquee" mobile-first :
-                - On duplique la liste (x2)
-                - On mesure la largeur d'UNE série
-                - On anime précisément de 0 à -largeurSerie => boucle infinie sans "reset" visible
-              */
               <motion.div
                 className="flex gap-4 sm:gap-6 md:gap-8 w-max will-change-transform"
                 ref={trackRef}
@@ -187,7 +168,6 @@ export const DeliveredProjects = () => {
           </div>
         </div>
 
-        {/* Note de transition vers le code pour souligner la nouvelle orientation */}
         <div className="mt-12 md:mt-24 flex justify-center">
           <p className="inline-block px-6 py-3 rounded-full border border-white/10 bg-white/5 text-sm md:text-base text-(--text-muted-dark) italic text-center">
             Aujourd’hui, je privilégie le développement en code pour des
