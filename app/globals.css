@@ -1,26 +1,185 @@
 @import "tailwindcss";
 
+/* --- CORE VARIABLES --- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-color: #ffffff;
+  --text-main: #050505;
+  --text-muted: #666666;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.5);
+  --stroke-color: rgba(0, 0, 0, 0.2);
+
+  /* --- DARK SECTION VARIABLES --- */
+  --bg-dark: #0a0a0a;
+  --text-dark: #ffffff;
+  --text-muted-dark: #a1a1aa;
+  --border-dark: rgba(255, 255, 255, 0.1);
+  --glass-bg-dark: rgba(255, 255, 255, 0.05);
+
+  /* --- CURSOR (par section) --- */
+  /* Par défaut (sections claires) : curseur foncé */
+  --cursor-dot-color: var(--text-main);
+  --cursor-border-color: rgba(0, 0, 0, 0.15);
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.86, 0, 0.07, 1);
+  --pill-bg: var(--glass-bg);
+}
+
+/* Thème "light cursor" = curseur clair (utile sur fonds sombres) */
+html[data-cursor-theme="light"] {
+  --cursor-dot-color: var(--text-dark);
+  --cursor-border-color: rgba(255, 255, 255, 0.35);
+}
+
+/* --- NAVBAR: couleur indépendante du thème du curseur --- */
+/* Par défaut (sections claires) : texte sombre */
+.nav-brand,
+.nav-dev {
+  color: var(--text-main);
+}
+
+/* Liens du menu: même logique que le "brand" */
+.nav-link {
+  color: var(--text-main);
+}
+
+/* Sections sombres (navbarTheme=light) : texte clair */
+html[data-navbar-theme="light"] .nav-brand,
+html[data-navbar-theme="light"] .nav-dev,
+html[data-navbar-theme="light"] .nav-link {
+  color: var(--text-dark);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--bg-color);
+  --color-foreground: var(--text-main);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-space-grotesk);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* --- BASE SETTINGS --- */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  overflow-x: hidden;
+  cursor: none; /* Le curseur personnalisé prend le relais */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  /* Firefox supporte `scrollbar-width`, mais certains outils de compatibilité le signalent
+     comme non supporté sur des versions plus anciennes de Chrome/Safari.
+     On le retire ici pour supprimer l’avertissement et garder un CSS 100% compatible. */
+}
+
+/* --- UI UTILS --- */
+.section-label {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 20;
+  font-family: var(--font-space-grotesk), monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  padding: 3px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(
+    4px
+  ); /* Support Safari/iOS Safari (préfixe WebKit) */
+  backdrop-filter: blur(4px);
+  transition: all 0.5s ease;
+}
+
+/* Amélioration du label sur écrans plus grands */
+@media (min-width: 768px) {
+  .section-label {
+    top: 1.5rem;
+    left: 1.5rem;
+    font-size: 10px;
+    padding: 4px 8px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* --- FX: NOISE --- */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 90;
+  opacity: 0.04;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* --- FX: PRELOADER --- */
+.loader-bar {
+  width: 200px;
+  height: 1px;
+  background: var(--border-color);
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* --- FX: CURSOR --- */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  background: var(--cursor-dot-color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  pointer-events: none;
+}
+.cursor-circle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--cursor-border-color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9998;
+  pointer-events: none;
+  transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.5s;
+}
+
+/* --- COMPONENT STYLES --- */
+.img-zoom {
+  transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.group:hover .img-zoom {
+  transform: scale(1.05);
+}
+
+/* Particle Canvas */
+.particle-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.3;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--text-main);
+  color: var(--bg-color);
 }
