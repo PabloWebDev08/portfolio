@@ -18,32 +18,6 @@ export const CustomCursor = () => {
   const circleY = useSpring(0, { stiffness: 150, damping: 20 });
 
   useEffect(() => {
-    // #region agent log (hypothesisId: ROUTE)
-    fetch("http://127.0.0.1:7242/ingest/39d60c15-4a19-4d42-a20c-8045a5a80fcd", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "ROUTE",
-        location: "CustomCursor.tsx:route-effect",
-        message: "Pathname changed",
-        data: {
-          pathname,
-          cursorTheme,
-          isCursorEnabled,
-          cursorSectionsCount:
-            document.querySelectorAll("[data-cursor]").length,
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
-    // Intentionnel: on log uniquement sur changement de route (pas à chaque changement de state).
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
-
-  useEffect(() => {
     /**
      * Mobile-first:
      * Sur mobile (touch), il n’y a pas de curseur “souris”. On désactive donc
@@ -56,26 +30,9 @@ export const CustomCursor = () => {
     const update = () => setIsCursorEnabled(mq.matches);
     update();
 
-    // #region agent log (hypothesisId: ENABLE)
-    fetch("http://127.0.0.1:7242/ingest/39d60c15-4a19-4d42-a20c-8045a5a80fcd", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "ENABLE",
-        location: "CustomCursor.tsx:matchmedia-init",
-        message: "MatchMedia initialized",
-        data: { pathname, matches: mq.matches },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
-
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
     // Intentionnel: cet effet doit s’exécuter une seule fois au montage (setup matchMedia).
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -98,31 +55,6 @@ export const CustomCursor = () => {
     const applyTheme = (theme: CursorTheme) => {
       setCursorTheme(theme);
       document.documentElement.dataset.cursorTheme = theme;
-      // #region agent log (hypothesisId: STALE_LIST)
-      fetch(
-        "http://127.0.0.1:7242/ingest/39d60c15-4a19-4d42-a20c-8045a5a80fcd",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            sessionId: "debug-session",
-            runId: "pre-fix",
-            hypothesisId: "STALE_LIST",
-            location: "CustomCursor.tsx:applyTheme",
-            message: "Applied cursor theme",
-            data: {
-              pathname,
-              theme,
-              cursorSectionsCountAtInit: cursorSections.length,
-              cursorSectionsConnectedAtInit: cursorSections.filter(
-                (el) => el.isConnected
-              ).length,
-            },
-            timestamp: Date.now(),
-          }),
-        }
-      ).catch(() => {});
-      // #endregion
     };
 
     const pickThemeFromViewportCenter = () => {
@@ -158,31 +90,6 @@ export const CustomCursor = () => {
       // Sécurité: on accepte uniquement "dark" ou "light".
       if (themeFromSection === "dark" || themeFromSection === "light") {
         applyTheme(themeFromSection);
-      } else {
-        // #region agent log (hypothesisId: STALE_LIST)
-        fetch(
-          "http://127.0.0.1:7242/ingest/39d60c15-4a19-4d42-a20c-8045a5a80fcd",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              sessionId: "debug-session",
-              runId: "pre-fix",
-              hypothesisId: "STALE_LIST",
-              location: "CustomCursor.tsx:pickTheme",
-              message: "No valid theme found from best section",
-              data: {
-                pathname,
-                bestSectionExists: Boolean(bestSection),
-                bestSectionConnected: bestSection?.isConnected ?? null,
-                bestSectionDataCursor: bestSection?.dataset.cursor ?? null,
-                cursorSectionsCountAtInit: cursorSections.length,
-              },
-              timestamp: Date.now(),
-            }),
-          }
-        ).catch(() => {});
-        // #endregion
       }
     };
 
@@ -197,29 +104,6 @@ export const CustomCursor = () => {
     };
 
     // Init + écouteurs
-    // #region agent log (hypothesisId: STALE_LIST)
-    fetch("http://127.0.0.1:7242/ingest/39d60c15-4a19-4d42-a20c-8045a5a80fcd", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "STALE_LIST",
-        location: "CustomCursor.tsx:theme-effect-init",
-        message: "Theme effect initialized (captured cursorSections)",
-        data: {
-          pathname,
-          cursorTheme,
-          cursorSectionsCountAtInit: cursorSections.length,
-          cursorSectionsConnectedAtInit: cursorSections.filter(
-            (el) => el.isConnected
-          ).length,
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
-
     pickThemeFromViewportCenter();
     window.addEventListener("scroll", schedulePick, { passive: true });
     window.addEventListener("resize", schedulePick);
@@ -235,9 +119,6 @@ export const CustomCursor = () => {
      * On relance cet effet à chaque changement de route pour recapturer les `[data-cursor]`
      * actuels (sinon on peut garder des éléments détachés du DOM après une navigation).
      */
-    // Intentionnel: `cursorTheme` est utilisé seulement pour le log, on ne veut pas relancer
-    // l’effet à chaque setState (sinon on ré-attache les listeners inutilement).
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCursorEnabled, pathname]);
 
   useEffect(() => {
