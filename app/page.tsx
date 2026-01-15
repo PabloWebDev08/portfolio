@@ -8,13 +8,17 @@ import { CTA } from "@/components/sections/CTA";
 import { NoiseOverlay } from "@/components/ui/NoiseOverlay";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { LandingScrollRestorer } from "@/components/ui/LandingScrollRestorer";
+import { Suspense } from "react";
 
 export default function Home() {
   return (
     <>
       <NoiseOverlay />
       <ScrollProgress />
-      <LandingScrollRestorer />
+      {/* Nécessaire car `LandingScrollRestorer` utilise `useSearchParams()` (Next.js exige un boundary Suspense). */}
+      <Suspense fallback={null}>
+        <LandingScrollRestorer />
+      </Suspense>
 
       <Navbar />
 

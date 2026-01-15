@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   title: "Pablo | Développeur Web",
   description: "Portfolio de Pablo, développeur web Next.js/React.",
   /**
-   * Base URL utilisée pour générer des URLs absolues (Open Graph, canonical, etc.).
+   
    * À définir en prod via `NEXT_PUBLIC_SITE_URL` (ex: https://ton-domaine.com).
    */
   metadataBase: new URL(
