@@ -65,7 +65,7 @@ export const ALL_PROJECTS: Project[] = [
     links: {
       demo: "https://probabilityjournal.com",
     },
-    status: "inProgress",
+    status: "delivered",
   },
   {
     id: "kaizen-venture",
