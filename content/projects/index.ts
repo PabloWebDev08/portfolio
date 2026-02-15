@@ -2,6 +2,36 @@ import type { Project } from "@/lib/types";
 
 export const ALL_PROJECTS: Project[] = [
   {
+    id: "prompts-css",
+    category: "code",
+    name: "Prompts CSS",
+    image: "/prompts-css1.webp",
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "MongoDB",
+      "Auth.js",
+      "Stripe",
+    ],
+    description:
+      "Bibliothèque d’effets UI (motion/interaction) organisée par catégories : chaque prompt est présenté comme une démo React en plein écran avec un scroll-snap “1 effet = 1 écran”, plus des filtres par tags. L’app gère un accès gratuit/premium de façon sécurisée côté serveur (le contenu premium n’est jamais envoyé au client sans accès), avec authentification et achat Stripe pour débloquer l’accès à vie.",
+    techPoints: [
+      "Next.js (App Router) : routes dynamiques `/categories/[slug]`, Server Components, metadata/SEO",
+      "MongoDB + Mongoose : modèles (Category/Prompt/Tag/User) et data-fetching `server-only`",
+      "Sécurité premium : redaction côté serveur du contenu verrouillé (anti-fuite DevTools)",
+      "Auth : NextAuth (session) + route API `me`",
+      "Paiement : Stripe Checkout + webhook (accès à vie)",
+      "UI : Tailwind CSS mobile-first + design neo‑brutaliste",
+      "TypeScript : typage strict + validations runtime avant d’afficher les données",
+    ],
+    links: {
+      demo: "https://www.promptscss.com",
+    },
+    status: "delivered",
+  },
+  {
     id: "project-for-junior",
     category: "code",
     name: "Project for Junior",
@@ -203,15 +233,15 @@ const isCategory = (project: Project, category: Project["category"]): boolean =>
   project.category === category;
 
 export const CODE_PROJECTS: Project[] = ALL_PROJECTS.filter((p) =>
-  isCategory(p, "code")
+  isCategory(p, "code"),
 );
 
 export const GAMES_PROJECTS: Project[] = ALL_PROJECTS.filter((p) =>
-  isCategory(p, "games")
+  isCategory(p, "games"),
 );
 
 export const DELIVERED_PROJECTS: Project[] = ALL_PROJECTS.filter((p) =>
-  isCategory(p, "delivered")
+  isCategory(p, "delivered"),
 );
 
 export function getProjectBySlug(slug: string): Project | undefined {
